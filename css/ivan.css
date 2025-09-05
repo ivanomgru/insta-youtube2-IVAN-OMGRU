@@ -1,0 +1,1118 @@
+/*----------------
+   پایه و ریست حرفه‌ای
+   Author: ivan_omgru
+========================= */
+
+/* ریست کلی */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; /* حذف هایلایت موبایل */
+}
+/* فونت در یک محل قرار می‌گیرد */
+html, body {
+  font-family: 'Vazir', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  background: var(--bg, #000);
+  color: #fff;
+}
+/* بهبود تایپوگرافی و رندر فونت */
+
+body {
+  color: #fff;
+  background: #000;
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  z-index: 1;
+}
+
+/* لینک‌ها */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+a:hover,
+a:focus {
+  opacity: 0.8;
+  outline: none;
+}
+
+/* مدیا */
+img,
+video,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* فرم‌ها */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+button {
+  cursor: pointer;
+}
+
+/* لیست‌ها */
+ul,
+ol {
+  list-style: none;
+}
+
+/* انتخاب متن */
+::selection {
+  background: #ff0055; /* رنگ انتخاب حرفه‌ای */
+  color: #fff;
+}
+/* =========================
+   ویدیو پس‌زمینه
+========================= */
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  background: #000;
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  transition: filter 0.3s;
+  filter: brightness(0.7);
+}
+
+.video-background .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+/* =========================
+   لودینگ اسکرین (حرفه‌ای)
+========================= */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000; /* پس‌زمینه اصلی */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  color: #fff;
+  text-align: center;
+  pointer-events: none; /* جلوگیری از کلیک روی لودینگ */
+  overflow: hidden;
+
+  /* انیمیشن fade-out هنگام حذف */
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+#loading-screen.hide {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+#loading-video {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+  animation: float 2s ease-in-out infinite;
+
+  /* شفاف و بدون مات بودن */
+  filter: none;
+  background: transparent;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(-10px);}
+}
+
+.spinner-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+
+  /* افکت سایه و حجم */
+  box-shadow: 0 0 5px #fff, 0 0 10px #ff0055, 0 0 15px #ff0055;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+/* =========================
+   بخش شبکه‌های اجتماعی انتهای صفحه (حرفه‌ای)
+========================= */
+.social-links-section {
+  background: transparent !important; /* شفاف روی ویدیو */
+  color: #fff;
+  padding: 60px 20px; 
+  text-align: center;
+  position: relative;
+  overflow: visible; /* overlay قبلی حذف شد */
+}
+
+.social-links-section::before {
+  content: none; /* انیمیشن pulse حذف شد */
+}
+
+.social-links-section h3 {
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.15);
+  transition: transform 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease;
+
+  /* روشن و شفاف روی ویدیو */
+  filter: none;
+}
+
+.social-links a img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
+
+  /* بدون مات بودن */
+  filter: none;
+}
+
+.social-links a:hover {
+  background-color: rgba(255,255,255,0.4);
+  transform: scale(1.25) rotate(-10deg);
+  box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+}
+
+.social-links a:hover img {
+  transform: scale(1.1);
+  filter: none; /* اطمینان از شفافیت */
+}
+
+
+/* ویدیو پس‌زمینه پایین صفحه */
+.video-background-bottom {
+  position: relative;
+  width: 100%;
+  height: 300px; /* ارتفاع دلخواه */
+  overflow: hidden;
+  z-index: 0;
+}
+
+.video-background-bottom video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: -1;
+  filter: brightness(0.7) contrast(1.05);
+  transition: filter 0.5s ease;
+}
+.video-background-bottom video:hover {
+  filter: brightness(0.85) contrast(1.1);
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+.video-background-bottom .overlay {
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 1;
+  pointer-events: none;
+}
+/* =========================
+   هدر (حرفه‌ای و مدرن)
+========================= */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(15px, 2vw, 30px);
+  background: transparent;
+  position: relative;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+header h1 {
+  font-size: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+  margin-bottom: 0.5em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+
+header.scrolled {
+  background: rgba(255, 255, 255, 0.7);
+  padding: clamp(10px, 1.5vw, 25px); /* کوچک شدن هنگام اسکرول */
+}
+
+header h1:hover {
+  transform: scale(1.05); /* جلوه subtle hover */
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-switch button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px; /* کمی گردتر برای مدرن بودن */
+  cursor: pointer;
+  background: #fff;
+  color: #007bff;
+  font-weight: 600;
+  font-size: clamp(0.8rem, 1vw + 0.5rem, 1rem);
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.lang-switch button:hover {
+  background: #007bff;
+  color: #fff;
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+}
+/* =========================
+   کانتینر و عنوان بخش‌ها (حرفه‌ای)
+========================= */
+.container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 15px;
+  position: relative;
+  z-index: 2;
+  transition: padding 0.3s ease;
+}
+
+.section-title {
+  margin-bottom: 35px;
+  font-size: clamp(1.4rem, 2vw + 1rem, 2rem);
+  color: #00d4ff;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.section-title:hover {
+  transform: scale(1.05);
+  color: #00ffff;
+}
+
+/* =========================
+   گرید واکنش‌گرا برای کارت‌ها (حرفه‌ای)
+========================= */
+.grid {
+  display: grid;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 1400px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================
+   Hover و افکت حرفه‌ای Swiper و Media-Card
+========================= */
+.swiper-slide {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+  will-change: transform, box-shadow;
+}
+
+.swiper-slide:hover {
+  transform: scale(1.1) rotateY(5deg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+.media-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.media-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+/* =========================
+   مدیریت زبان‌ها (حرفه‌ای)
+========================= */
+
+/* حالت پیش‌فرض */
+.lang-fa { display: block; }
+.lang-ru { display: none; }
+/* هنگام سوئیچ زبان */
+.lang-switch-active .lang-fa {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lang-switch-active .lang-ru {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* انیمیشن مخفی شدن زبان قبلی */
+.lang-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+/* =========================
+   فوتر (حرفه‌ای و مدرن)
+========================= */
+footer {
+  text-align: center;
+  margin: 50px 0;
+  color: #ccc; /* متن سفید برای خوانایی روی ویدیو */
+  font-size: clamp(0.7rem, 1vw + 0.3rem, 0.95rem);
+  position: relative;
+  z-index: 2;
+  padding: 20px 15px;
+  background: transparent; /* کاملاً شفاف */
+  backdrop-filter: none;   /* حذف بلور */
+  border-top: 1px solid rgba(255,255,255,0.1); /* نوار ظریف حفظ شود */
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+footer a {
+  color: #00d4ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #00ffff;
+}
+
+/* =========================
+   واکنش‌گرایی موبایل و تبلت (هماهنگ)
+========================= */
+@media (max-width: 1024px) {
+  header h1 {
+    font-size: clamp(1.4rem, 2vw + 1rem, 2rem);
+  }
+  .swiper-slide {
+    min-width: 220px;
+  }
+  .media-card p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  header h1 {
+    font-size: clamp(1.2rem, 2vw + 1rem, 1.8rem);
+  }
+  .lang-switch {
+    margin-top: 10px;
+  }
+  .swiper-slide {
+    min-width: 90%;
+    margin: 0 auto;
+  }
+}
+
+/* =========================
+   آیکون گوشه صفحه (حرفه‌ای)
+========================= */
+.custom-login-icon {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+  background: rgba(0,0,0,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.custom-login-icon:hover {
+  border-color: #fff;
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+}
+
+.custom-login-icon img {
+  width: 40px;
+  height: 40px;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.custom-login-icon:hover img {
+  transform: scale(1.1);
+}
+/* =========================
+   فرم ورود شفاف (حرفه‌ای)
+========================= */
+.login-panel {
+  position: fixed;
+  top: 0;
+  left: -320px; /* کمی فضای بیشتر برای ظاهر بهتر */
+  width: 320px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  padding: 25px;
+  transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  color: #fff;
+  z-index: 100;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.6);
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.login-panel.active {
+  left: 0;
+}
+
+.login-panel input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  outline: none;
+  border-radius: 6px;
+  transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-panel input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #00d4ff;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.login-panel input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.3s ease;
+}
+
+.login-panel button {
+  width: 100%;
+  padding: 10px 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.login-panel button:hover {
+  background: #00d4ff;
+  color: #000;
+  font-weight: bold;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.5);
+}
+/* =========================
+   اصلاح استایل پنل مدیریت (حرفه‌ای)
+========================= */
+#admin-panel-container {
+  display: none;
+  padding: 25px;
+  position: relative;
+  z-index: 100;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#admin-panel-container.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#admin-panel {
+  display: none;
+  padding: 20px;
+}
+
+#loginError {
+  color: #ff4d4d;
+  margin-top: 12px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+#manual-admin-section {
+  display: none;
+}
+
+/* =========================
+   گالری اینستاگرام و یوتیوب واکنش‌گرا
+========================= */
+.instagram-gallery,
+.youtube-gallery {
+  display: grid;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+/* تبلت: 2 کارت */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .instagram-gallery,
+  .youtube-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* دسکتاپ کوچک: 3 کارت */
+@media (min-width: 1024px) and (max-width: 1399px) {
+  .instagram-gallery,
+  .youtube-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* دسکتاپ بزرگ: 4 کارت */
+@media (min-width: 1400px) {
+  .instagram-gallery,
+  .youtube-gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* =========================
+   کارت‌های رسانه‌ای حرفه‌ای (Instagram و YouTube)
+========================= */
+/* کارت‌ها: مربعی و واکنش‌گرا */
+.instagram-gallery .media-card,
+.youtube-gallery .media-card {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* نسبت 1:1 */
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+}
+
+/* تصاویر و ویدیو داخل کارت */
+.instagram-gallery .media-card img,
+.youtube-gallery .media-card img,
+.instagram-gallery .media-card video,
+.youtube-gallery .media-card video {
+  position: absolute; /* ضروری برای پوشاندن کل کارت */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+/* افکت hover کارت‌ها */
+.media-card:hover {
+  transform: scale(1.08) rotateY(2deg);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+}
+
+.media-card:hover img,
+.media-card:hover video {
+  transform: scale(1.06);
+  filter: brightness(1.05);
+}
+
+/* لینک overlay پایین کارت */
+.overlay-link {
+  position: absolute;
+  bottom: -40px; 
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0,0,0,0.55);
+  padding: 10px 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  transition: bottom 0.3s ease, background 0.3s ease;
+}
+
+.overlay-link a {
+  color: #00d4ff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.media-card:hover .overlay-link {
+  bottom: 0;
+}
+
+.overlay-link a:hover {
+  color: #00ffff;
+  transform: scale(1.05);
+}
+
+/* متن داخل کارت */
+.instagram-gallery .media-card p,
+.youtube-gallery .media-card p {
+  backdrop-filter: blur(6px) brightness(1.2);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+  display: inline-block;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+  font-size: 0.88rem;
+  margin: 4px 0;
+}
+
+/* افکت hover روی متن */
+.instagram-gallery .media-card:hover p,
+.youtube-gallery .media-card:hover p {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 5px 18px rgba(0, 212, 255, 0.35);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* انتخاب متن */
+.instagram-gallery .media-card p::selection,
+.youtube-gallery .media-card p::selection {
+  background: rgba(0, 212, 255, 0.25);
+}
+
+/* دکمه‌ها داخل کارت */
+.media-card button {
+  margin: 6px 6px 0 0;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #00d4ff;
+  color: #000;
+  font-size: 0.82rem;
+  font-weight: bold;
+  transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* افکت hover روی دکمه‌ها */
+.media-card button:hover {
+  background-color: #00a0cc;
+  transform: scale(1.07);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+}
+/* =========================
+   افکت‌ها و تعاملات حرفه‌ای روی کارت‌ها
+========================= */
+
+/* بزرگنمایی تصویر و ویدیو هنگام هاور */
+.instagram-gallery .media-card:hover img,
+.youtube-gallery .media-card:hover img,
+.instagram-gallery .media-card:hover video,
+.youtube-gallery .media-card:hover video {
+    transform: scale(1.06);
+    filter: brightness(1.05);
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+/* متن داخل کارت */
+.instagram-gallery .media-card p,
+.youtube-gallery .media-card p {
+  backdrop-filter: blur(6px) brightness(1.2);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+  display: inline-block;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+  font-size: 0.88rem;
+  margin: 4px 0;
+}
+
+/* افکت hover روی متن */
+.instagram-gallery .media-card:hover p,
+.youtube-gallery .media-card:hover p {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 5px 18px rgba(0, 212, 255, 0.35);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* انتخاب متن */
+.instagram-gallery .media-card p::selection,
+.youtube-gallery .media-card p::selection {
+  background: rgba(0, 212, 255, 0.25);
+}
+
+/* دکمه‌ها داخل کارت */
+.media-card button {
+  margin: 6px 6px 0 0;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #00d4ff;
+  color: #000;
+  font-size: 0.82rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* افکت hover روی دکمه‌ها */
+.media-card button:hover {
+  background-color: #00a0cc;
+  transform: scale(1.07);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+}
+/* =========================
+   تمایز حرفه‌ای کارت‌های اینستاگرام و یوتیوب
+========================= */
+
+/* تمایز رنگی کارت‌ها */
+.instagram-special {
+  border: 2px solid #00d4ff; /* رنگ آبی اینستا */
+  background-color: rgba(0, 212, 255, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 212, 255, 0.25);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.youtube-special {
+  border: 2px solid #ff0000; /* رنگ قرمز یوتیوب */
+  background-color: rgba(255, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(255, 0, 0, 0.25);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+/* افکت شعاعی subtle روی کارت‌ها */
+.instagram-gallery .media-card::before,
+.youtube-gallery .media-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.instagram-gallery .media-card:hover::before,
+.youtube-gallery .media-card:hover::before {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* هماهنگی hover کارت‌ها با تمایز رنگ */
+.instagram-special:hover,
+.youtube-special:hover {
+  transform: scale(1.04);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.6);
+}
+/* =========================
+   گالری دستی: گرید واکنش‌گرا و کارت‌ها
+========================= */
+
+/* گرید واکنش‌گرا */
+.manual-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 16px;
+}
+
+@media (min-width: 768px){ 
+  .manual-gallery-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); } 
+}
+@media (min-width: 1024px){ 
+  .manual-gallery-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); } 
+}
+@media (min-width: 1400px){ 
+  .manual-gallery-grid{ grid-template-columns: repeat(5, minmax(0,1fr)); } 
+}
+
+/* کارت مشترک اینستا/یوتیوب دستی */
+.media-card, .manual-post-card{
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  background: #fff;
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* کارت مربع دستی */
+.manual-post-card {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* تصاویر و ویدیو */
+.media-card img,
+.media-card video,
+.manual-post-card img,
+.manual-post-card video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  min-height: 150px;
+  transition: transform 0s ease, filter 0.35s ease;
+}
+
+/* افکت hover تصاویر و ویدیو */
+.media-card:hover img,
+.media-card:hover video,
+.manual-post-card:hover img,
+.manual-post-card:hover video {
+  transform: scale(1.06);
+  filter: brightness(1.05);
+}
+
+/* متن داخل کارت */
+.media-card p, .manual-post-card p {
+  margin: 8px 12px;
+  line-height: 1.6;
+  font-size: 14px;
+  color: #333;
+}
+
+/* overlay لینک‌ها */
+.overlay-link {
+  position: absolute; 
+  inset: auto 8px 8px 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  padding: 12px; 
+  border-radius: 12px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.overlay-link a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* رنگ‌آمیزی ملایم کارت‌ها */
+.instagram-special {
+  --accent: #E1306C22;
+  background: linear-gradient(180deg, #fff, var(--accent));
+  box-shadow: 0 6px 20px rgba(225, 48, 108, 0.2);
+}
+
+.youtube-special {
+  --accent: #FF000022;
+  background: linear-gradient(180deg, #fff, var(--accent));
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.2);
+}
+
+/* هدرهای کوچک گالری‌ها */
+.manual-gallery-title {
+  margin: 24px 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+/* کلاس Utility برای پنهان‌سازی */
+.is-hidden { display: none !important; }
+
+/* فیلتر UI */
+.feed-filter {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 12px 0 20px;
+}
+
+.feed-filter select {
+  padding: 8px 12px; 
+  border-radius: 10px; 
+  border: 1px solid #ddd;
+  font-size: 14px; 
+  background: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feed-filter select:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 6px rgba(0,212,255,0.35);
+  outline: none;
+}
+/* =========================
+   لودینگ اسکرین حرفه‌ای و لایت‌باکس
+========================= */
+
+/* لودینگ اسکرین */
+#loading-screen {
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:100;
+  overflow: hidden;
+}
+
+#loading-screen video#loading-video {
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:0;
+  filter: brightness(0.5);
+  transition: filter 0.3s ease;
+}
+
+.spinner-container {
+  position:relative;
+  z-index:1;
+  display:flex;
+  gap:10px;
+}
+
+.spinner {
+  width:20px;
+  height:20px;
+  border:3px solid #00d4ff;
+  border-top-color:transparent;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+
+.spinner:nth-child(2) { animation-delay: 0.2s; }
+.spinner:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#loading-screen p {
+  color:#fff;
+  margin-top:15px;
+  font-size:1rem;
+  font-weight:bold;
+  z-index:1;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}

@@ -1,0 +1,369 @@
+/* =========================
+   اضافات گالری / لایت‌باکس / دکمه بیشتر
+   — اضافه کن در انتهای ivan.css یا در فایل جدید و include کن بعد از ivan.css
+========================= */
+
+/* متغیرهای تکمیلی (اگر از قبل موجوده، تکرار مشکلی ایجاد نمیکنه) */
+:root {
+  --bg: #000;
+  --card-bg: #0f0f11;
+  --accent-ig: #E1306C;
+  --accent-yt: #FF0000;
+  --muted: #cfd8e3;
+  --gap: 18px;
+  --light-contrast: rgba(255,255,255,0.08);
+  --primary: #00d4ff;
+  --gallery-accent: var(--primary);
+  --gallery-radius: 12px;
+  --gallery-gap: 18px;
+  --max-container: 1200px;
+  --transition-fast: 0.25s ease;
+  --transition-med: 0.35s ease;
+}
+
+
+
+/* کانتینر گالری‌های مشخص (فقط آی‌دی‌های استفاده‌شده) */
+#ytGallery, #igGallery {
+  display: grid;
+  gap: var(--gallery-gap);
+  align-items: start;
+}
+
+/* ستون‌بندی ریسپانسیو مختص این گالری‌ها */
+@media (min-width:1400px){
+  #ytGallery, #igGallery { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width:1024px) and (max-width:1399px){
+  #ytGallery, #igGallery { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width:768px) and (max-width:1023px){
+  #ytGallery, #igGallery { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width:767px){
+  #ytGallery, #igGallery { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* کارت رسانه‌ای (سازگار با renderCard) - محدود به داخل گالری */
+#ytGallery .media-card,
+#igGallery .media-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: var(--gallery-radius);
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  transition: transform .28s ease, box-shadow .28s ease;
+  display: block;
+  position: relative;
+}
+
+/* حالت مربعی که ساختی در HTML با padding-bottom:100% هماهنگ می‌شود */
+#ytGallery .media-card, #igGallery .media-card {
+  width:100%;
+  padding-bottom: 100%; /* نسبت 1:1 برای گالری‌های مربعی */
+}
+
+/* تصویر داخل کارت باید absolute پر کند */
+#ytGallery .media-card img,
+#igGallery .media-card img {
+  position: absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* کپشن‌ها (زبان‌ها) */
+#ytGallery .media-card p,
+#igGallery .media-card p {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  margin: 0;
+  padding: 6px 8px;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  max-width: calc(100% - 20px);
+}
+
+/* اگر می‌خواهی هر زبان جدا باشه (قبلاً کلاس‌ها هستن) */
+#ytGallery .media-card .lang-ru,
+#igGallery .media-card .lang-ru { display: none; }
+
+/* افکت هاور */
+#ytGallery .media-card:hover,
+#igGallery .media-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.75);
+}
+
+/* overlay-link در صورت وجود */
+#ytGallery .overlay-link,
+#igGallery .overlay-link {
+  position: absolute;
+  left:8px; right:8px; bottom:8px;
+  padding:8px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.25));
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .22s ease, transform .22s ease;
+}
+#ytGallery .media-card:hover .overlay-link,
+#igGallery .media-card:hover .overlay-link {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* دکمه بارگذاری بیشتر (مختص صفحات کار تو) */
+.btn-load-more {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin:20px auto 0;
+  padding:10px 16px;
+  border-radius:10px;
+  background: rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.04);
+  color: #fff;
+  cursor: pointer;
+  font-weight:700;
+}
+.btn-load-more:hover { transform: translateY(-3px); }
+/* =========================
+   لودینگ اسکرین (حرفه‌ای)
+========================= */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000; /* پس‌زمینه اصلی */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000; /* بالاتر از همه */
+  color: #fff;
+  text-align: center;
+  pointer-events: none; /* جلوگیری از کلیک روی لودینگ */
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+#loading-screen.hide {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* ویدیو یا لوگوی لودینگ */
+#loading-video {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+  animation: float 2s ease-in-out infinite;
+  filter: none;
+  background: transparent;
+}
+
+/* اسپینر لودینگ */
+#loading-screen .spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid var(--gallery-accent);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-top: 10px;
+}
+
+/* انیمیشن اسپینر */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* انیمیشن شناور ویدیو */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* =========================
+   لایت‌باکس (فوق حرفه‌ای)
+========================= */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+#lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#lightbox .lightbox-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 0;
+}
+
+#lightbox .lightbox-content {
+  position: relative;
+  z-index: 1;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#lightbox .lightbox-content img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+#lightbox.active .lightbox-content img {
+  transform: scale(1);
+}
+
+/* دکمه بستن */
+.lightbox-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  font-size: 2rem;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px 12px;
+  z-index: 10;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.lightbox-close:hover { 
+  transform: scale(1.1); 
+  background: rgba(0,0,0,0.8);
+}
+
+/* ناوبری (قبلی/بعدی) */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.lightbox-nav button {
+  pointer-events: all;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.lightbox-nav button:hover { 
+  background: rgba(0,0,0,0.8); 
+  transform: scale(1.05);
+}
+/* آیکون ورود گوشه (صرفا استایل تکمیلی) */
+.custom-login-icon { left: 18px; bottom: 18px; border:1px solid rgba(255,255,255,0.06); }
+/* کلاس کمکی برای زمانی که JS بخواد متن RU رو نمایش بده */
+.lang-show-ru #ytGallery .media-card .lang-ru,
+.lang-show-ru #igGallery .media-card .lang-ru {
+  display: block;
+}
+/* =========================
+   دکمه‌های مرتب‌سازی گالری (جدیدترین / قدیمی‌ترین)
+========================= */
+.sort-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+  justify-content: flex-start;
+}
+
+.btn-sort {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background-color: rgba(0,0,0,0.25); /* شفاف روی ویدیو */
+  color: #fff; /* متن سفید */
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+  z-index: 10;
+  border: 1px solid rgba(255,255,255,0.3); /* خط سفید شفاف */
+}
+
+.btn-sort:hover {
+  transform: translateY(-3px) scale(1.05);
+  background-color: rgba(0,180,255,0.3); /* شفاف و آبی روی هاور */
+  box-shadow: 0 6px 28px rgba(0,0,0,0.35);
+}
+
+.btn-sort.active {
+  background-color: rgba(0,212,255,0.35); /* شفاف و آبی روشن */
+  color: #fff;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.4);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.btn-sort span {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.btn-sort:hover span {
+  transform: translateY(-1px);
+}
+
+/* ریسپانسیو موبایل */
+@media (max-width: 767px) {
+  .sort-buttons {
+    justify-content: center;
+  }
+  .btn-sort {
+    flex: 1 1 45%;
+    max-width: calc(50% - 12px);
+    font-size: 0.88rem;
+  }
+}
