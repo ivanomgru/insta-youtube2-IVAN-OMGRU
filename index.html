@@ -86,39 +86,29 @@
 <link rel="alternate" hreflang="ru" href="https://ivan.omgru.ir/">
 <!-- ===================== Schema.org (JSON-LD) با یوتیوب ===================== -->
 <style>
-/* =========================
-   🟢 بهینه‌سازی RTL در موبایل (زبان فارسی)
-   هدف: جلوگیری از بیرون‌زدگی قالب و اسکرول افقی
-   ========================= */
+/* 🚀 جلوگیری از بهم ریختن قالب در موبایل فارسی */
 @media only screen and (max-width: 768px) {
-
-  /* ریشه‌ی سند در حالت فارسی */
   html[lang="fa"], body[lang="fa"] {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;  /* جلوگیری از اسکرول افقی */
+    overflow-x: hidden !important; /* حذف اسکرول افقی */
   }
 
-  /* تمام عناصر داخلی */
   [dir="rtl"] * {
-    max-width: 100%;                /* اطمینان از جا گرفتن در صفحه */
-    box-sizing: border-box;         /* محاسبه صحیح padding/border */
-    overflow-wrap: break-word;      /* شکستن کلمات طولانی */
-    word-break: break-word;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    word-wrap: break-word;
   }
 
-  /* اصلاح مخصوص Swiper (مشکل رایج RTL در موبایل) */
+  /* مخصوص سوایپر که توی RTL قالبو می‌ندازه بیرون */
   [dir="rtl"] .swiper {
-    direction: ltr !important;      /* جهت کلی اسلایدر */
+    direction: ltr !important;
   }
   [dir="rtl"] .swiper-slide {
-    direction: rtl !important;      /* بازگرداندن متن به راست‌چین */
-    text-align: right;
+    direction: rtl !important;
   }
 }
-
 </style>
 <script type="application/ld+json">
 {
@@ -436,6 +426,7 @@
 <script src="js/12.js" defer></script>
 </body>
 </html>
+
 
 
 
