@@ -368,3 +368,22 @@
   }
 
 }
+/*-------------------------*/
+/* ===== موبایل مخصوص فارسی ===== */
+@media only screen and (max-width: 768px) {
+  /* کانتینر اصلی متن فارسی */
+  [dir="rtl"] {
+    width: 100% !important;       /* پر کردن عرض */
+    max-width: 100% !important;   /* جلوگیری از بیرون رفتن از صفحه */
+    margin: 0 auto !important;    /* وسط چین کردن */
+    padding: 0 15px !important;   /* فاصله مناسب از لبه‌ها */
+    box-sizing: border-box;       /* شامل padding و border */
+  }
+
+  /* متن داخل کانتینر */
+  [dir="rtl"] * {
+    text-align: right;            /* راست‌چین کردن همه متن‌ها */
+    overflow-wrap: break-word;    /* جلوگیری از خارج شدن متن */
+  }
+}
+
