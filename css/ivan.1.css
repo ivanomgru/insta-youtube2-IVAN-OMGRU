@@ -368,42 +368,41 @@
   }
 
 }
-/*-------------------------*/
 /* ===== موبایل مخصوص فارسی ===== */
 @media only screen and (max-width: 768px) {
-  /* کانتینر اصلی متن فارسی */
-  [dir="rtl"] {
-    width: 100% !important;       /* پر کردن عرض */
-    max-width: 100% !important;   /* جلوگیری از بیرون رفتن از صفحه */
-    margin: 0 auto !important;    /* وسط چین کردن */
-    padding: 0 15px !important;   /* فاصله مناسب از لبه‌ها */
-    box-sizing: border-box;       /* شامل padding و border */
-  }
-
-  /* متن داخل کانتینر */
-  [dir="rtl"] * {
-    text-align: right;            /* راست‌چین کردن همه متن‌ها */
-    overflow-wrap: break-word;    /* جلوگیری از خارج شدن متن */
-  }
-}
-/* موبایل فارسی فقط */
-@media only screen and (max-width: 768px) {
-  [dir="rtl"] .video-section,
-  [dir="rtl"] .video-player {
-    position: relative;       /* اطمینان از alignment درست */
-    width: 100% !important;   /* پر کردن عرض ویدیو */
-    margin: 0 auto !important; /* وسط چین کردن */
-    left: 0 !important;       /* جلوگیری از جابه‌جایی به سمت راست */
-    right: 0 !important;
-  }
-
-  [dir="rtl"] .container, 
+  /* کانتینر متن فارسی */
   [dir="rtl"] .content-wrapper {
-    width: 100% !important;   /* کانتینر متن پر عرض شود */
+    width: 100% !important;
     max-width: 100% !important;
     margin: 0 auto !important;
     padding: 0 15px !important;
+    box-sizing: border-box;
+    display: block;
+  }
+
+  /* متن داخل کانتینر */
+  [dir="rtl"] .content-wrapper * {
+    text-align: right;
+    overflow-wrap: break-word;
+  }
+
+  /* ویدیو پس‌زمینه فارسی */
+  [dir="rtl"] .video-section,
+  [dir="rtl"] .video-player {
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 0 !important; /* حذف فاصله اضافی */
+  }
+
+  /* کانتینر ویدیو و متن */
+  [dir="rtl"] .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 15px !important;
+    box-sizing: border-box;
   }
 }
-
-
