@@ -366,4 +366,80 @@
     max-width: calc(50% - 12px);
     font-size: 0.88rem;
   }
+
+}
+/* ================== MOBILE RTL FIX ================== */
+@media (max-width: 992px) {
+
+  /* کل HTML یا body فارسی */
+  html[dir="rtl"], body[dir="rtl"] {
+    text-align: right;
+    direction: rtl;
+  }
+
+  /* کانتینرها */
+  html[dir="rtl"] .container,
+  html[dir="rtl"] .container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+  }
+
+  /* هدر و منو */
+  html[dir="rtl"] header,
+  html[dir="rtl"] .navbar {
+    flex-direction: column; /* ستونی شدن در موبایل */
+    align-items: flex-start; /* یا center */
+    text-align: right;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  html[dir="rtl"] .nav-item {
+    margin-left: 0 !important;
+    margin-right: 10px; /* فاصله بین آیتم‌ها */
+  }
+
+  /* کارت‌ها و گالری‌ها */
+  html[dir="rtl"] .card,
+  html[dir="rtl"] .blog-item,
+  html[dir="rtl"] #ytGallery,
+  html[dir="rtl"] #igGallery {
+    direction: rtl;
+    text-align: right;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+  }
+
+  /* دکمه‌ها و فرم‌ها */
+  html[dir="rtl"] button,
+  html[dir="rtl"] input,
+  html[dir="rtl"] textarea,
+  html[dir="rtl"] select {
+    text-align: right;
+    direction: rtl;
+  }
+
+  /* متن پاراگراف‌ها */
+  html[dir="rtl"] p,
+  html[dir="rtl"] h1,
+  html[dir="rtl"] h2,
+  html[dir="rtl"] h3,
+  html[dir="rtl"] h4,
+  html[dir="rtl"] h5,
+  html[dir="rtl"] h6 {
+    text-align: right;
+  }
+
+  /* آیکون‌ها و دکمه‌های سمت چپ */
+  html[dir="rtl"] .btn-icon-left {
+    margin-left: 0 !important;
+    margin-right: 8px !important;
+  }
+
+  /* رفع overflow یا حرکت اضافی */
+  html[dir="rtl"] body {
+    overflow-x: hidden;
+  }
 }
