@@ -1116,3 +1116,23 @@ footer a:hover {
   z-index:1;
   text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
+/* =========================
+   اصلاحات RTL مخصوص موبایل
+========================= */
+@media (max-width: 767px) {
+  body[dir="rtl"] #ytGallery .media-card p,
+  body[dir="rtl"] #igGallery .media-card p {
+    left: auto;
+    right: 10px; /* کپشن سمت راست باشد */
+  }
+
+  body[dir="rtl"] .overlay-link {
+    left: auto;
+    right: 8px; /* overlay سمت راست */
+  }
+
+  body[dir="rtl"] .btn-sort {
+    text-align: center;
+    margin: 5px auto;
+  }
+}
