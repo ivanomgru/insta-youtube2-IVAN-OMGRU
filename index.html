@@ -85,6 +85,32 @@
 <link rel="alternate" hreflang="fa" href="https://ivan.omgru.ir/">
 <link rel="alternate" hreflang="ru" href="https://ivan.omgru.ir/">
 <!-- ===================== Schema.org (JSON-LD) با یوتیوب ===================== -->
+<style>
+/* 🚀 جلوگیری از بهم ریختن قالب در موبایل فارسی */
+@media only screen and (max-width: 768px) {
+  html[lang="fa"], body[lang="fa"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important; /* حذف اسکرول افقی */
+  }
+
+  [dir="rtl"] * {
+    max-width: 100% !important;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+
+  /* مخصوص سوایپر که توی RTL قالبو می‌ندازه بیرون */
+  [dir="rtl"] .swiper {
+    direction: ltr !important;
+  }
+  [dir="rtl"] .swiper-slide {
+    direction: rtl !important;
+  }
+}
+        
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -401,3 +427,4 @@
 <script src="js/12.js" defer></script>
 </body>
 </html>
+
