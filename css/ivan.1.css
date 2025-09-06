@@ -386,4 +386,24 @@
     overflow-wrap: break-word;    /* جلوگیری از خارج شدن متن */
   }
 }
+/* موبایل فارسی فقط */
+@media only screen and (max-width: 768px) {
+  [dir="rtl"] .video-section,
+  [dir="rtl"] .video-player {
+    position: relative;       /* اطمینان از alignment درست */
+    width: 100% !important;   /* پر کردن عرض ویدیو */
+    margin: 0 auto !important; /* وسط چین کردن */
+    left: 0 !important;       /* جلوگیری از جابه‌جایی به سمت راست */
+    right: 0 !important;
+  }
+
+  [dir="rtl"] .container, 
+  [dir="rtl"] .content-wrapper {
+    width: 100% !important;   /* کانتینر متن پر عرض شود */
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 15px !important;
+  }
+}
+
 
