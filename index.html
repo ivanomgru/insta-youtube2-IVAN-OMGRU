@@ -86,30 +86,58 @@
 <link rel="alternate" hreflang="ru" href="https://ivan.omgru.ir/">
 <!-- ===================== Schema.org (JSON-LD) با یوتیوب ===================== -->
 <style>
-/* 🚀 جلوگیری از بهم ریختن قالب در موبایل فارسی */
+/* =========================
+   📱 بهینه‌سازی کامل RTL در موبایل (زبان فارسی)
+   جلوگیری از بیرون‌زدگی قالب + اسکرول افقی
+   ========================= */
 @media only screen and (max-width: 768px) {
+
+  /* ریشه سند فقط وقتی زبان فارسی باشه */
   html[lang="fa"], body[lang="fa"] {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    overflow-x: hidden !important; /* حذف اسکرول افقی */
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;   /* حذف اسکرول افقی */
+    direction: rtl;       /* اطمینان از راست‌چین بودن */
   }
 
+  /* همه عناصر داخلی */
   [dir="rtl"] * {
-    max-width: 100% !important;
+    max-width: 100%;
     box-sizing: border-box;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
-  /* مخصوص سوایپر که توی RTL قالبو می‌ندازه بیرون */
-  [dir="rtl"] .swiper {
-    direction: ltr !important;
+  /* جلوگیری از بیرون‌زدگی تصویر و ویدیو */
+  [dir="rtl"] img,
+  [dir="rtl"] video,
+  [dir="rtl"] iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
-  [dir="rtl"] .swiper-slide {
-    direction: rtl !important;
+
+  /* مخصوص Swiper و سایر اسلایدرها */
+  [dir="rtl"] .swiper,
+  [dir="rtl"] .owl-carousel {
+    direction: ltr;    /* مسیر اسلایدر */
+  }
+  [dir="rtl"] .swiper-slide,
+  [dir="rtl"] .owl-item {
+    direction: rtl;    /* محتوا راست‌چین */
+    text-align: right;
+  }
+
+  /* جلوگیری از شکاف اضافی در کانتینر */
+  [dir="rtl"] .container,
+  [dir="rtl"] .content-wrapper {
+    margin: 0 auto;
+    padding: 0 15px;
   }
 }
-        
+
 </style>
 <script type="application/ld+json">
 {
@@ -427,4 +455,5 @@
 <script src="js/12.js" defer></script>
 </body>
 </html>
+
 
