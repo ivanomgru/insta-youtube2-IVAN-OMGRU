@@ -669,7 +669,6 @@ footer .footer-copy {
 #manual-admin-section {
   display: none;
 }
-
 /* =========================
    گالری اینستاگرام و یوتیوب واکنش‌گرا
 ========================= */
@@ -703,6 +702,7 @@ footer .footer-copy {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
 /* =========================
    کارت‌های رسانه‌ای حرفه‌ای (Instagram و YouTube)
 ========================= */
@@ -733,6 +733,7 @@ footer .footer-copy {
   border-radius: 12px;
   transition: transform 0.4s ease, filter 0.4s ease;
 }
+
 /* افکت hover کارت‌ها */
 .media-card:hover {
   transform: scale(1.08) rotateY(2deg);
@@ -745,37 +746,28 @@ footer .footer-copy {
   filter: brightness(1.05);
 }
 
-/* لینک overlay پایین کارت */
+/* لینک overlay (نسخهٔ نهایی و دارای inset) */
 .overlay-link {
-  position: absolute;
-  bottom: -40px; 
-  left: 0;
-  width: 100%;
-  text-align: center;
-  background: rgba(0,0,0,0.55);
-  padding: 10px 0;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  transition: bottom 0.3s ease, background 0.3s ease;
+  position: absolute; 
+  inset: auto 8px 8px 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  padding: 12px; 
+  border-radius: 12px;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .overlay-link a {
-  color: #00d4ff;
-  font-weight: 600;
+  color: #fff;
   text-decoration: none;
-  transition: color 0.3s ease, transform 0.3s ease;
+  font-weight: 600;
+  font-size: 13px;
 }
 
-.media-card:hover .overlay-link {
-  bottom: 0;
-}
-
-.overlay-link a:hover {
-  color: #00ffff;
-  transform: scale(1.05);
-}
-
-/* متن داخل کارت */
+/* متن داخل کارت (نسخهٔ نهایی، با backdrop-filter) */
 .instagram-gallery .media-card p,
 .youtube-gallery .media-card p {
   backdrop-filter: blur(6px) brightness(1.2);
@@ -804,70 +796,7 @@ footer .footer-copy {
   background: rgba(0, 212, 255, 0.25);
 }
 
-/* دکمه‌ها داخل کارت */
-.media-card button {
-  margin: 6px 6px 0 0;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: #00d4ff;
-  color: #000;
-  font-size: 0.82rem;
-  font-weight: bold;
-  transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* افکت hover روی دکمه‌ها */
-.media-card button:hover {
-  background-color: #00a0cc;
-  transform: scale(1.07);
-  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
-}
-/* =========================
-   افکت‌ها و تعاملات حرفه‌ای روی کارت‌ها
-========================= */
-
-/* بزرگنمایی تصویر و ویدیو هنگام هاور */
-.instagram-gallery .media-card:hover img,
-.youtube-gallery .media-card:hover img,
-.instagram-gallery .media-card:hover video,
-.youtube-gallery .media-card:hover video {
-    transform: scale(1.06);
-    filter: brightness(1.05);
-    transition: transform 0.35s ease, filter 0.35s ease;
-}
-
-/* متن داخل کارت */
-.instagram-gallery .media-card p,
-.youtube-gallery .media-card p {
-  backdrop-filter: blur(6px) brightness(1.2);
-  background: rgba(0, 0, 0, 0.25);
-  padding: 5px 10px;
-  border-radius: 8px;
-  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
-  display: inline-block;
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
-  font-size: 0.88rem;
-  margin: 4px 0;
-}
-
-/* افکت hover روی متن */
-.instagram-gallery .media-card:hover p,
-.youtube-gallery .media-card:hover p {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 5px 18px rgba(0, 212, 255, 0.35);
-  background: rgba(0, 0, 0, 0.45);
-}
-
-/* انتخاب متن */
-.instagram-gallery .media-card p::selection,
-.youtube-gallery .media-card p::selection {
-  background: rgba(0, 212, 255, 0.25);
-}
-
-/* دکمه‌ها داخل کارت */
+/* دکمه‌ها داخل کارت (نسخهٔ نهایی با transition 0.3s) */
 .media-card button {
   margin: 6px 6px 0 0;
   padding: 6px 12px;
@@ -887,22 +816,37 @@ footer .footer-copy {
   transform: scale(1.07);
   box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
 }
+
+/* =========================
+   افکت‌ها و تعاملات حرفه‌ای روی کارت‌ها
+========================= */
+
+/* بزرگنمایی تصویر و ویدیو هنگام هاور (نسخهٔ نهایی) */
+.instagram-gallery .media-card:hover img,
+.youtube-gallery .media-card:hover img,
+.instagram-gallery .media-card:hover video,
+.youtube-gallery .media-card:hover video {
+  transform: scale(1.06);
+  filter: brightness(1.05);
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
 /* =========================
    تمایز حرفه‌ای کارت‌های اینستاگرام و یوتیوب
 ========================= */
 
-/* تمایز رنگی کارت‌ها */
+/* تمایز رنگی کارت‌ها (نسخهٔ نهایی با --accent و گرادیان نرم) */
 .instagram-special {
-  border: 2px solid #00d4ff; /* رنگ آبی اینستا */
-  background-color: rgba(0, 212, 255, 0.08);
-  box-shadow: 0 4px 18px rgba(0, 212, 255, 0.25);
+  --accent: #E1306C22;
+  background: linear-gradient(180deg, #fff, var(--accent));
+  box-shadow: 0 6px 20px rgba(225, 48, 108, 0.2);
   transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
 
 .youtube-special {
-  border: 2px solid #ff0000; /* رنگ قرمز یوتیوب */
-  background-color: rgba(255, 0, 0, 0.08);
-  box-shadow: 0 4px 18px rgba(255, 0, 0, 0.25);
+  --accent: #FF000022;
+  background: linear-gradient(180deg, #fff, var(--accent));
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.2);
   transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
 
@@ -934,6 +878,7 @@ footer .footer-copy {
   transform: scale(1.04);
   box-shadow: 0 10px 35px rgba(0,0,0,0.6);
 }
+
 /* =========================
    گالری دستی: گرید واکنش‌گرا و کارت‌ها
 ========================= */
@@ -974,7 +919,7 @@ footer .footer-copy {
   position: relative;
 }
 
-/* تصاویر و ویدیو */
+/* تصاویر و ویدیو (نسخهٔ نهایی برای کارت‌های دستی) */
 .media-card img,
 .media-card video,
 .manual-post-card img,
@@ -996,7 +941,7 @@ footer .footer-copy {
   filter: brightness(1.05);
 }
 
-/* متن داخل کارت */
+/* متن داخل کارت (نسخهٔ کلی) */
 .media-card p, .manual-post-card p {
   margin: 8px 12px;
   line-height: 1.6;
@@ -1004,39 +949,10 @@ footer .footer-copy {
   color: #333;
 }
 
-/* overlay لینک‌ها */
-.overlay-link {
-  position: absolute; 
-  inset: auto 8px 8px 8px;
-  display: flex;
-  gap: 8px;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
-  padding: 12px; 
-  border-radius: 12px;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
+/* overlay لینک‌ها (تکرار جلوگیری شد، نسخهٔ نهایی بالا) */
+/* overlay-link a رنگ و اندازه در بلوک بالا تنظیم شده است */
 
-.overlay-link a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-/* رنگ‌آمیزی ملایم کارت‌ها */
-.instagram-special {
-  --accent: #E1306C22;
-  background: linear-gradient(180deg, #fff, var(--accent));
-  box-shadow: 0 6px 20px rgba(225, 48, 108, 0.2);
-}
-
-.youtube-special {
-  --accent: #FF000022;
-  background: linear-gradient(180deg, #fff, var(--accent));
-  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.2);
-}
+/* رنگ‌آمیزی ملایم کارت‌ها (already in instagram-special / youtube-special) */
 
 /* هدرهای کوچک گالری‌ها */
 .manual-gallery-title {
@@ -1045,6 +961,7 @@ footer .footer-copy {
   font-weight: 600;
   color: #333;
 }
+
 /* کلاس Utility برای پنهان‌سازی */
 .is-hidden { display: none !important; }
 
@@ -1070,66 +987,3 @@ footer .footer-copy {
   box-shadow: 0 0 6px rgba(0,212,255,0.35);
   outline: none;
 }
-/* =========================
-   لودینگ اسکرین حرفه‌ای و لایت‌باکس
-========================= */
-
-/* لودینگ اسکرین */
-#loading-screen {
-  position: fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background:#000;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:100;
-  overflow: hidden;
-}
-
-#loading-screen video#loading-video {
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:0;
-  filter: brightness(0.5);
-  transition: filter 0.3s ease;
-}
-
-.spinner-container {
-  position:relative;
-  z-index:1;
-  display:flex;
-  gap:10px;
-}
-
-.spinner {
-  width:20px;
-  height:20px;
-  border:3px solid #00d4ff;
-  border-top-color:transparent;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-}
-
-.spinner:nth-child(2) { animation-delay: 0.2s; }
-.spinner:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-#loading-screen p {
-  color:#fff;
-  margin-top:15px;
-  font-size:1rem;
-  font-weight:bold;
-  z-index:1;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-}
-
