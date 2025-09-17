@@ -949,11 +949,6 @@ footer .footer-copy {
   color: #333;
 }
 
-/* overlay لینک‌ها (تکرار جلوگیری شد، نسخهٔ نهایی بالا) */
-/* overlay-link a رنگ و اندازه در بلوک بالا تنظیم شده است */
-
-/* رنگ‌آمیزی ملایم کارت‌ها (already in instagram-special / youtube-special) */
-
 /* هدرهای کوچک گالری‌ها */
 .manual-gallery-title {
   margin: 24px 0 12px;
@@ -987,3 +982,4 @@ footer .footer-copy {
   box-shadow: 0 0 6px rgba(0,212,255,0.35);
   outline: none;
 }
+
