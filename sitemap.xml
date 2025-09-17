@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset 
+    xmlns="https://www.sitemaps.org/schemas/sitemap/0.9" 
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
   <!-- صفحه اصلی یوتیوب -->
   <url>
     <loc>https://youtube.ivan-omgru.ir/</loc>
@@ -8,53 +11,64 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- ویدیوهای قدیمی -->
+  <!-- پست 1 -->
   <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/1.jpg</loc>
-    <lastmod>2025-05-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://youtube.ivan-omgru.ir/posts/post1</loc>
+    <lastmod>2025-01-01</lastmod>
+    <image:image>
+      <image:loc>https://youtube.ivan-omgru.ir/media/youtube/1.jpg</image:loc>
+      <image:caption>fa: تصویر شاخص و معرفی پست ۱ | ru: Изображение и описание поста 1</image:caption>
+    </image:image>
   </url>
+
+  <!-- پست 2 -->
   <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/2.jpg</loc>
-    <lastmod>2025-06-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://youtube.ivan-omgru.ir/posts/post2</loc>
+    <lastmod>2025-01-02</lastmod>
+    <image:image>
+      <image:loc>https://youtube.ivan-omgru.ir/images/youtube2-thumb.jpg</image:loc>
+      <image:caption>fa: تصویر شاخص و معرفی پست ۲ | ru: Изображение и описание поста 2</image:caption>
+    </image:image>
   </url>
+
+  <!-- پست 3 -->
   <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/3.jpg</loc>
-    <lastmod>2025-07-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://youtube.ivan-omgru.ir/posts/post3</loc>
+    <lastmod>2025-01-03</lastmod>
+    <image:image>
+      <image:loc>https://youtube.ivan-omgru.ir/images/youtube3-thumb.jpg</image:loc>
+      <image:caption>fa: تصویر شاخص و معرفی پست ۳ | ru: Изображение и описание поста 3</image:caption>
+    </image:image>
   </url>
+
+  <!-- پست 4 -->
   <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/4.jpg</loc>
-    <lastmod>2025-07-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://youtube.ivan-omgru.ir/posts/post4</loc>
+    <lastmod>2025-01-04</lastmod>
+    <image:image>
+      <image:loc>https://youtube.ivan-omgru.ir/images/youtube4-thumb.jpg</image:loc>
+      <image:caption>fa: تصویر شاخص و معرفی پست ۴ | ru: Изображение и описание поста 4</image:caption>
+    </image:image>
   </url>
+
+  <!-- پست 5 -->
   <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/5.jpg</loc>
-    <lastmod>2025-08-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://youtube.ivan-omgru.ir/posts/post5</loc>
+    <lastmod>2025-01-05</lastmod>
+    <image:image>
+      <image:loc>https://youtube.ivan-omgru.ir/images/youtube5-thumb.jpg</image:loc>
+      <image:caption>fa: تصویر شاخص و معرفی پست ۵ | ru: Изображение и описание поста 5</image:caption>
+    </image:image>
   </url>
+
+  <!-- پست 6 -->
   <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/6.jpg</loc>
-    <lastmod>2025-08-10</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://youtube.ivan-omgru.ir/posts/post6</loc>
+    <lastmod>2025-01-06</lastmod>
+    <image:image>
+      <image:loc>https://youtube.ivan-omgru.ir/images/youtube6-thumb.jpg</image:loc>
+      <image:caption>fa: تصویر شاخص و معرفی پست ۶ | ru: Изображение и описание поста 6</image:caption>
+    </image:image>
   </url>
-  <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/7.jpg</loc>
-    <lastmod>2025-08-20</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://youtube.ivan-omgru.ir/media/youtube/8.jpg</loc>
-    <lastmod>2025-09-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.8</priority>
-  </url>
+
 </urlset>
