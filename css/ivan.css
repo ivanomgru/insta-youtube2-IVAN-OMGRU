@@ -465,27 +465,43 @@ header h1:hover {
 footer {
   text-align: center;
   margin: 50px 0;
-  color: #ccc; /* متن سفید برای خوانایی روی ویدیو */
+  color: #ccc;
   font-size: clamp(0.7rem, 1vw + 0.3rem, 0.95rem);
   position: relative;
   z-index: 2;
   padding: 20px 15px;
-  background: transparent; /* کاملاً شفاف */
-  backdrop-filter: none;   /* حذف بلور */
-  border-top: 1px solid rgba(255,255,255,0.1); /* نوار ظریف حفظ شود */
+  background: transparent;
+  backdrop-filter: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-footer a {
+/* لینک‌ها */
+footer .footer-links .links {
+  display: flex;
+  gap: 15px;          /* فاصله بین لینک‌ها */
+  flex-wrap: wrap;     /* اگر صفحه کوچک شد، به خط بعدی برود */
+  justify-content: center;
+  margin-top: 5px;
+}
+
+footer .footer-links .links a {
   color: #00d4ff;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, font-weight 0.3s ease, transform 0.3s ease;
 }
 
-footer a:hover {
-  color: #00ffff;
+footer .footer-links .links a:hover {
+  color: #00ffff;      /* تغییر رنگ هنگام هاور */
+  font-weight: 700;     /* متن برجسته */
+  transform: scale(1.05); /* کمی بزرگ‌تر شدن برای حس مدرن */
 }
 
+/* کپی‌رایت */
+footer .footer-copy {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
 /* =========================
    واکنش‌گرایی موبایل و تبلت (هماهنگ)
 ========================= */
@@ -1116,3 +1132,4 @@ footer a:hover {
   z-index:1;
   text-shadow: 0 2px 6px rgba(0,0,0,0.8);
 }
+
