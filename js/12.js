@@ -50,13 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === NEW: انتخاب بهترین لینک نهایی برای ایندکس داده‌شده ===
   async function resolveBestLink(index) {
-    const candidate = pageLinks[index] && pageLinks[index] !== '#' ? pageLinks[index] : null;
-    if (candidate) {
-      const ok = await checkLink(candidate);
-      if (ok) return candidate;
+    const href = links[index] || '#';
+    const pl = pageLinks[index] && pageLinks[index] !== '#' ? pageLinks[index] : null;
+
+    // اگر href یک تصویر است و pageLink موجود است => تلاش کن pageLink رو استفاده کنی
+    const isImage = !!String(href).match(/\.(jpe?g|png|gif|webp|svg|bmp)(?:[\?#]|$)/i);
+    if (isImage && pl) {
+      const ok = await checkLink(pl);
+      if (ok) return pl;
+      // اگر pageLink معتبر نبود، fallback به href
+      return href;
     }
-    // fallback to original href (links array) or '#'
-    return links[index] || '#';
+
+    // در حالت کلی: اول href (پیش‌فرض)، اگر نبود سعی کن pageLink را استفاده کنی، در نهایت '#'
+    return href || pl || '#';
   }
   // ==================================================================
 
@@ -80,10 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return a ? a.href : '#';
       });
       // ← ساخت/به‌روزرسانی آرایه pageLinks از data-page-link روی <a>
+      // تغییر: الان فقط attribute data-page-link را می‌گیریم (دیگه fallback به href نمیدیم)
       pageLinks = cards.map(c => {
         const a = c.querySelector('a');
-        // اولویت: data-page-link (اگر موجود باشد) -> fallback به href -> fallback به '#'
-        return a ? (a.getAttribute('data-page-link') || a.href || '#') : '#';
+        return a ? (a.getAttribute('data-page-link') || '') : '';
       });
 
       currentIndex = cards.indexOf(card);
@@ -127,7 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // ← اکنون از pageLinks استفاده می‌کند (اگر موجود نبود، '#' خواهد بود)
       // اما: ابتدا لینک را موقتاً غیرفعال می‌کنیم تا زمان بررسی اعتبار آن
-      link.href = '#';
+      // نکته: الان link ابتدا روی href قرار می‌گیرد (پیش‌فرض)، سپس ممکن است resolveBestLink آن را تغییر دهد
+      link.href = links[currentIndex] || '#';
       link.setAttribute('aria-disabled', 'true');
       if (!link.dataset.origText) link.dataset.origText = link.innerText || '';
       link.innerText = lang === 'ru' ? 'در حال بررسی...' : 'در حال بررسی...';
@@ -428,65 +436,4 @@ async function fetchIG() {
     console.warn('fetchIG error, falling back to IG_MANUAL', err);
     return IG_MANUAL;
   }
-}
-/* ------------------ INIT ------------------ */
-document.addEventListener("DOMContentLoaded", () => {
-  initGallery({
-    galleryId: "ytGallery",
-    btnId: "loadMoreYT",
-    manualData: YT_MANUAL,
-    fetchApiFn: fetchYT
-  });
-  initGallery({
-    galleryId: "igGallery",
-    btnId: "loadMoreIG",
-    manualData: IG_MANUAL,
-    fetchApiFn: fetchIG
-  });
-});
-/* 1) استایل‌های پایه (در صورت نبود CSS خارجی) */
-(function injectStyles(){
-  if (document.getElementById('gallery-enhancements-style')) return;
-  const css = `
-    .lightbox-link{ position:absolute; bottom:20px; right:20px; padding:8px 16px; background:rgba(0,212,255,0.9); color:#000; font-weight:700; border-radius:8px; text-decoration:none; z-index:9999; }
-    .api-error{ padding:18px; background:rgba(255,0,0,0.06); color:#fff; border-radius:8px; text-align:center; margin:12px 0; }
-  `;
-  const s = document.createElement('style');
-  s.id = 'gallery-enhancements-style';
-  s.appendChild(document.createTextNode(css));
-  document.head.appendChild(s);
-})();
-(function safeCheckImagesLoaded(){
-  if (typeof checkImagesLoaded !== 'function') return;
-  const _orig = checkImagesLoaded;
-  window.checkImagesLoaded = function(){
-    const imgs = document.images;
-    if (!imgs || imgs.length === 0) return 1; // اگر تصویری نیست فرض می‌کنیم لود شده
-    let loadedCount = 0;
-    for (let img of imgs) if (img.complete) loadedCount++;
-    return loadedCount / imgs.length;
-  };
-})();
-(function debounceOpenLightbox(){
-  if (typeof window.openLightbox !== 'function') return;
-  const _origOpen = window.openLightbox;
-  let busy = false;
-  window.openLightbox = function(){
-    if (busy) return;
-    busy = true;
-    try{
-      _origOpen();
-    }finally{
-      setTimeout(()=> busy = false, 350);
-    }
-  };
-})();
-function showGalleryError(galleryId, message){
-  const g = document.getElementById(galleryId);
-  if (!g) return;
-  const el = document.createElement('div');
-  el.className = 'api-error';
-  el.innerText = message || 'خطا در بارگذاری';
-  g.innerHTML = '';
-  g.appendChild(el);
 }
