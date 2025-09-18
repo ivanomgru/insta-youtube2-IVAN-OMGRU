@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = lightbox ? lightbox.querySelector('.next') : null;
   let images = [];
   let links = [];
+  let pageLinks = []; // ← اضافه شد
   let currentIndex = 0;
   // جمع‌آوری تصاویر و لینک‌ها به‌صورت داینامیک (event delegation)
   document.addEventListener('click', (e) => {
@@ -28,6 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const a = c.querySelector('a');
         return a ? a.href : '#';
       });
+      // ← ساخت/به‌روزرسانی آرایه pageLinks از data-page-link روی <a>
+      pageLinks = cards.map(c => {
+        const a = c.querySelector('a');
+        // اولویت: data-page-link (اگر موجود باشد) -> fallback به href -> fallback به '#'
+        return a ? (a.getAttribute('data-page-link') || a.href || '#') : '#';
+      });
+
       currentIndex = cards.indexOf(card);
       if (lightbox) openLightbox();
     }
@@ -65,7 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const contentEl = lightbox.querySelector('.lightbox-content');
         if (contentEl) contentEl.appendChild(link);
       }
-      link.href = links[currentIndex] || '#';
+      // ← اکنون از pageLinks استفاده می‌کند (اگر موجود نبود، '#' خواهد بود)
+      link.href = pageLinks[currentIndex] || links[currentIndex] || '#';
       link.innerText = lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !';
       link.setAttribute('aria-label', lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !');
 
@@ -192,7 +201,7 @@ if (document.readyState === 'loading') {
 function renderCard(item) {
   return `
     <article class="media-card" role="listitem" tabindex="0">
-      <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+      <a href="${item.link}" data-page-link="${item.pageLink || ''}" target="_blank" rel="noopener noreferrer">
         <img src="${item.thumb}" alt="${item.alt || item.fa || 'media'}" loading="lazy">
       </a>
       <p class="lang-fa">${item.fa || ''}</p>
@@ -312,16 +321,12 @@ function initGallery({ galleryId, btnId, manualData, fetchApiFn, pageSize = 8 })
 
   loadData();
 }
-
 /* ------------------ MANUAL DATA ------------------ */
 const YT_MANUAL = [
-  {thumb:"media/youtube/1.jpg", link:"https://www.youtube.com/@ivan.omgruss", fa:"ویدیو 1", ru:"Видео 1"},
-
-
+  {"@id":"https://youtube.ivan-omgru.ir/media/youtube/1.jpg","thumb":"https://youtube.ivan-omgru.ir/media/youtube/1.jpg","link":"https://www.youtube.com/@ivan.omgruss","pageLink":"https://youtube.ivan-omgru.ir/posts/youtube1.html","fa":"ویدیو معرفی سایت ivan_omgru","ru":"Видео: Введение в сайт ivan_omgru"}
 ];
 const IG_MANUAL = [
-  {thumb:"media/instagram/1.jpg", link:"https://www.instagram.com/p/ChnSyX3pC-7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==", fa:"پست 1", ru:"Пост 1"},
-
+  {"@id":"https://insta.ivan-omgru.ir/media/instagram/1.jpg","thumb":"https://insta.ivan-omgru.ir/media/instagram/1.jpg","link":"https://www.instagram.com/p/ChnSyX3pC-7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==","pageLink":"https://insta.ivan-omgru.ir/posts/instagram1.html","fa":"پست 1","ru":"Пост 1"}
 ];
 /* ------------------ API FETCHERS ------------------ */
 async function fetchYT() {
