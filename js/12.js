@@ -10,6 +10,56 @@ document.addEventListener('DOMContentLoaded', () => {
   let links = [];
   let pageLinks = []; // ← اضافه شد
   let currentIndex = 0;
+
+  // === NEW: کش برای نتایج اعتبارسنجی لینک‌ها (اجتناب از درخواست‌های مکرر) ===
+  const linkValidationCache = new Map();
+
+  // === NEW: تابع بررسی دسترسی لینک با HEAD و تایم‌اوت ایمن ===
+  function checkLink(url, timeoutMs = 2500) {
+    if (!url || url === '#' || url.trim() === '') return Promise.resolve(false);
+    // اگر توی کش هست، نتیجه را برگردان
+    if (linkValidationCache.has(url)) {
+      return Promise.resolve(!!linkValidationCache.get(url));
+    }
+    return new Promise((resolve) => {
+      let controller = null;
+      let timedOut = false;
+      if ('AbortController' in window) controller = new AbortController();
+      const timer = setTimeout(() => {
+        timedOut = true;
+        try { if (controller) controller.abort(); } catch (e) {}
+        resolve(false);
+      }, timeoutMs);
+
+      fetch(url, { method: 'HEAD', signal: controller ? controller.signal : undefined })
+        .then(res => {
+          clearTimeout(timer);
+          const ok = !!(res && res.ok);
+          linkValidationCache.set(url, ok);
+          resolve(ok);
+        })
+        .catch(err => {
+          clearTimeout(timer);
+          // اگر HEAD با مشکل CORS یا خطا مواجه شد، قبول می‌کنیم که نامعتبر است.
+          // (قابل توجه: بررسی مطمئن cross-origin همیشه ممکن نیست؛ این رو محافظه‌کارانه انجام دادیم)
+          linkValidationCache.set(url, false);
+          resolve(false);
+        });
+    });
+  }
+
+  // === NEW: انتخاب بهترین لینک نهایی برای ایندکس داده‌شده ===
+  async function resolveBestLink(index) {
+    const candidate = pageLinks[index] && pageLinks[index] !== '#' ? pageLinks[index] : null;
+    if (candidate) {
+      const ok = await checkLink(candidate);
+      if (ok) return candidate;
+    }
+    // fallback to original href (links array) or '#'
+    return links[index] || '#';
+  }
+  // ==================================================================
+
   // جمع‌آوری تصاویر و لینک‌ها به‌صورت داینامیک (event delegation)
   document.addEventListener('click', (e) => {
     const card = e.target.closest && e.target.closest('.media-card');
@@ -40,12 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (lightbox) openLightbox();
     }
   });
-  function openLightbox() {
+
+  async function openLightbox() {
     if (!lightbox) return;
     if (lightbox.dataset.opening === '1') return;
     lightbox.dataset.opening = '1';
     lightbox.classList.remove('is-hidden');
-    setTimeout(() => {
+    setTimeout(async () => {
       lightbox.classList.add('active');
       if (lightboxImg) {
         lightboxImg.src = images[currentIndex] || '';
@@ -73,14 +124,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const contentEl = lightbox.querySelector('.lightbox-content');
         if (contentEl) contentEl.appendChild(link);
       }
+
       // ← اکنون از pageLinks استفاده می‌کند (اگر موجود نبود، '#' خواهد بود)
-      link.href = pageLinks[currentIndex] || links[currentIndex] || '#';
-      link.innerText = lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !';
-      link.setAttribute('aria-label', lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !');
+      // اما: ابتدا لینک را موقتاً غیرفعال می‌کنیم تا زمان بررسی اعتبار آن
+      link.href = '#';
+      link.setAttribute('aria-disabled', 'true');
+      if (!link.dataset.origText) link.dataset.origText = link.innerText || '';
+      link.innerText = lang === 'ru' ? 'در حال بررسی...' : 'در حال بررسی...';
+
+      // بررسی غیرهمزمان و ست کردن لینک مناسب (با fallback به links[currentIndex])
+      try {
+        const best = await resolveBestLink(currentIndex);
+        link.href = best || (links[currentIndex] || '#');
+      } catch (e) {
+        link.href = links[currentIndex] || '#';
+      } finally {
+        link.removeAttribute('aria-disabled');
+        link.innerText = lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !';
+        link.setAttribute('aria-label', lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !');
+      }
 
       setTimeout(() => { delete lightbox.dataset.opening; }, 400);
     }, 20);
   }
+
   function closeLightbox() {
     if (!lightbox) return;
     lightbox.classList.remove('active');
@@ -105,7 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lightboxImg) {
     lightboxImg.addEventListener('click', (e) => {
       if (e.ctrlKey || e.metaKey) {
-        window.open(links[currentIndex] || '#', '_blank', 'noopener,noreferrer');
+        // اکنون سعی می‌کنیم از لینک داخل لایت‌باکس استفاده کنیم (که resolve شده است)
+        const lbLink = lightbox ? lightbox.querySelector('.lightbox-link') : null;
+        const targetHref = lbLink ? (lbLink.href || links[currentIndex] || '#') : (links[currentIndex] || '#');
+        window.open(targetHref, '_blank', 'noopener,noreferrer');
         return;
       }
       // در حالت عادی کلیک روی تصویر فقط تعامل درون لایت‌باکس را حفظ می‌کند
@@ -386,7 +456,6 @@ document.addEventListener("DOMContentLoaded", () => {
   s.appendChild(document.createTextNode(css));
   document.head.appendChild(s);
 })();
-/* 2) گارد برای checkImagesLoaded تا از تقسیم بر صفر جلوگیری شود */
 (function safeCheckImagesLoaded(){
   if (typeof checkImagesLoaded !== 'function') return;
   const _orig = checkImagesLoaded;
@@ -398,9 +467,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return loadedCount / imgs.length;
   };
 })();
-/* 3) جلوگیری از باز شدن همزمان لایت‌باکس (debounce کوتاه)
-   - این بخش به صورت ایمن (در صورتی که openLightbox در window موجود باشد) کار می‌کند
-*/
 (function debounceOpenLightbox(){
   if (typeof window.openLightbox !== 'function') return;
   const _origOpen = window.openLightbox;
@@ -415,15 +481,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 })();
-/* 4) تابع کمکی نمایش ارور در گالری (برای استفاده توسط توسعه‌دهنده) */
 function showGalleryError(galleryId, message){
   const g = document.getElementById(galleryId);
   if (!g) return;
   const el = document.createElement('div');
   el.className = 'api-error';
   el.innerText = message || 'خطا در بارگذاری';
-  // حذف محتوا و نمایش پیام خطا (بدون حذف فایل اصلی کد)
   g.innerHTML = '';
   g.appendChild(el);
 }
-
