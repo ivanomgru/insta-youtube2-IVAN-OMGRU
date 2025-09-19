@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+الان با این چه تغیراتی کرده document.addEventListener('DOMContentLoaded', () => {
   // گاردها برای جلوگیری از خطا اگر المان‌ها موجود نباشن
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = lightbox ? lightbox.querySelector('img') : null;
@@ -203,7 +203,7 @@ if (document.readyState === 'loading') {
 }
 function renderCard(item) {
   // تغییر: اگر pageLink وجود داره، همونو بذار تو href، وگرنه همون link رو بذار
-  const finalLink = item.pageLink && item.pageLink.trim() !== "" ? item.pageLink : item.link;
+  const finalLink = item.pageLink && item.pageLink.trim() !== "" ? item.pageLink : (item.link || '#');
 
   return `
     <article class="media-card" role="listitem" tabindex="0">
@@ -329,7 +329,7 @@ function initGallery({ galleryId, btnId, manualData, fetchApiFn, pageSize = 8 })
 }
 /* ------------------ MANUAL DATA ------------------ */
 const YT_MANUAL = [
-  {"@id":"https://youtube.ivan-omgru.ir/media/youtube/1.jpg","thumb":"https://youtube.ivan-omgru.ir/media/youtube/1.jpg","link":"https://www.youtube.com/@ivan.omgruss","pageLink":"https://youtube.ivan-omgru.ir/posts/youtube1.html","fa":"ویدیو معرفی سایت ivan_omgru","ru":"Видео: Введение в сайт ivan_omgru"}
+  {"@id":"https://youtube.ivan-omgru.ir/media/youtube/1.jpg","thumb":"https://youtube.ivan-omgru.ir/media/youtube/1.jpg","link":"https://www.youtube.com/@ivan.omgruss","fa":"ویدیو معرفی سایت ivan_omgru","ru":"Видео: Введение в сайт ivan_omgru"}
 ];
 const IG_MANUAL = [
   {"@id":"https://insta.ivan-omgru.ir/media/instagram/1.jpg","thumb":"https://insta.ivan-omgru.ir/media/instagram/1.jpg","link":"https://www.instagram.com/p/ChnSyX3pC-7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==","pageLink":"https://insta.ivan-omgru.ir/posts/instagram1.html","fa":"پست 1","ru":"Пост 1"}
