@@ -203,7 +203,7 @@ if (document.readyState === 'loading') {
 }
 function renderCard(item) {
   // تغییر: اگر pageLink وجود داره، همونو بذار تو href، وگرنه همون link رو بذار
-  const finalLink = item.pageLink && item.pageLink.trim() !== "" ? item.pageLink : (item.link || '#');
+  const finalLink = item.pageLink && item.pageLink.trim() !== "" ? item.pageLink : item.link;
 
   return `
     <article class="media-card" role="listitem" tabindex="0">
