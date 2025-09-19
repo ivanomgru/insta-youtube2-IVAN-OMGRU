@@ -1,4 +1,4 @@
-الان با این چه تغیراتی کرده document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // گاردها برای جلوگیری از خطا اگر المان‌ها موجود نباشن
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = lightbox ? lightbox.querySelector('img') : null;
@@ -432,3 +432,4 @@ function showGalleryError(galleryId, message){
   g.innerHTML = '';
   g.appendChild(el);
 }
+
