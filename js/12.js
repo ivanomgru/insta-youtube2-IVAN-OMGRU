@@ -49,21 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === NEW: انتخاب بهترین لینک نهایی برای ایندکس داده‌شده ===
+  // تغییر: اکنون اگر data-page-link وجود داشته باشه، اولویت با همونه.
+  // در غیر این صورت از href اصلی استفاده می‌کنیم.
   async function resolveBestLink(index) {
     const href = links[index] || '#';
-    const pl = pageLinks[index] && pageLinks[index] !== '#' ? pageLinks[index] : null;
+    const plRaw = pageLinks[index] || '';
+    const pl = plRaw && plRaw !== '#' ? plRaw : null;
 
-    // اگر href یک تصویر است و pageLink موجود است => تلاش کن pageLink رو استفاده کنی
-    const isImage = !!String(href).match(/\.(jpe?g|png|gif|webp|svg|bmp)(?:[\?#]|$)/i);
-    if (isImage && pl) {
-      const ok = await checkLink(pl);
-      if (ok) return pl;
-      // اگر pageLink معتبر نبود، fallback به href
-      return href;
+    // اگر pageLink وجود داشته باشه، مستقیم همونو برگردون (اولویت)
+    if (pl) {
+      return pl;
     }
 
-    // در حالت کلی: اول href (پیش‌فرض)، اگر نبود سعی کن pageLink را استفاده کنی، در نهایت '#'
-    return href || pl || '#';
+    // در غیر این صورت از href استفاده کن
+    return href || '#';
   }
   // ==================================================================
 
@@ -277,9 +276,12 @@ if (document.readyState === 'loading') {
   handleLoading();
 }
 function renderCard(item) {
+  // تغییر: اگر pageLink موجود باشه، اون رو به عنوان href نهایی بذار؛ در غیر این صورت از item.link استفاده کن
+  const finalLink = item.pageLink && item.pageLink.trim() !== "" ? item.pageLink : item.link;
+
   return `
     <article class="media-card" role="listitem" tabindex="0">
-      <a href="${item.link}" data-page-link="${item.pageLink || ''}" target="_blank" rel="noopener noreferrer">
+      <a href="${finalLink}" data-page-link="${item.pageLink || ''}" target="_blank" rel="noopener noreferrer">
         <img src="${item.thumb}" alt="${item.alt || item.fa || 'media'}" loading="lazy">
       </a>
       <p class="lang-fa">${item.fa || ''}</p>
@@ -306,7 +308,7 @@ function initGallery({ galleryId, btnId, manualData, fetchApiFn, pageSize = 8 })
     DATA = apiData && apiData.length ? apiData : manualData || [];
 
     if (!DATA.length) {
-      gallery.innerHTML = '<div class="api-error"><span class="lang-fa">هیچ پستی موجود نیست</span><span class="lang-ru">Нет постов</span></div>';
+      gallery.innerHTML = '<div class="api-error"><span class="lang-fa">هیچ پستی موجود نیست</span><span class="lang-ру">Нет постов</span></div>';
       if (btn) btn.style.display = 'none';
       return;
     }
