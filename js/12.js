@@ -29,17 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const a = c.querySelector('a');
         return a ? a.href : '#';
       });
-      // ← ساخت/به‌روزرسانی آرایه pageLinks از data-page-link روی <a>
+      // ← CHANGED: ساخت/به‌روزرسانی آرایه pageLinks فقط از data-page-link (بدون fallback به href)
       pageLinks = cards.map(c => {
         const a = c.querySelector('a');
-        // اولویت: data-page-link (اگر موجود باشد) -> fallback به href -> fallback به '#'
-        return a ? (a.getAttribute('data-page-link') || a.href || '#') : '#';
+        return a ? (a.getAttribute('data-page-link') || '') : '';
       });
 
       currentIndex = cards.indexOf(card);
       if (lightbox) openLightbox();
     }
   });
+
   function openLightbox() {
     if (!lightbox) return;
     if (lightbox.dataset.opening === '1') return;
@@ -73,14 +73,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const contentEl = lightbox.querySelector('.lightbox-content');
         if (contentEl) contentEl.appendChild(link);
       }
-      // ← اکنون از pageLinks استفاده می‌کند (اگر موجود نبود، '#' خواهد بود)
-      link.href = pageLinks[currentIndex] || links[currentIndex] || '#';
+
+      // ← CHANGED: حالا دقیقاً مطابق خواستهٔ شما:
+      // اگر data-page-link صریحاً وجود داشته باشه ازش استفاده کن، وگرنه از لینک اصلی استفاده کن.
+      // (pageLinks فقط زمانی مقدار دارد که data-page-link attribute صریحاً قرار داده شده باشد)
+      const maybePageLink = pageLinks[currentIndex] && pageLinks[currentIndex].trim() !== '' ? pageLinks[currentIndex].trim() : null;
+      const maybeLink = links[currentIndex] && links[currentIndex].trim() !== '' ? links[currentIndex].trim() : null;
+      const chosen = maybePageLink || maybeLink || '#';
+      link.href = chosen;
+
+      // اگر خواستی وقتی هیچ لینکی نیست، دکمه را غیرفعال کنیم:
+      if (chosen === '#') {
+        link.setAttribute('aria-disabled', 'true');
+        link.tabIndex = -1;
+      } else {
+        link.removeAttribute('aria-disabled');
+        link.tabIndex = 0;
+      }
+
       link.innerText = lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !';
       link.setAttribute('aria-label', lang === 'ru' ? 'Смотрите сейчас!' : 'هم اکنون مشاهده کنید !');
 
       setTimeout(() => { delete lightbox.dataset.opening; }, 400);
     }, 20);
   }
+
   function closeLightbox() {
     if (!lightbox) return;
     lightbox.classList.remove('active');
@@ -105,9 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lightboxImg) {
     lightboxImg.addEventListener('click', (e) => {
       if (e.ctrlKey || e.metaKey) {
-        // تغییر: اکنون سعی می‌کنیم از لینک داخل لایت‌باکس استفاده کنیم (که resolve شده است)
-        const lbLink = lightbox ? lightbox.querySelector('.lightbox-link') : null;
-        const targetHref = lbLink ? (lbLink.href || pageLinks[currentIndex] || links[currentIndex] || '#') : (pageLinks[currentIndex] || links[currentIndex] || '#');
+        // CHANGED: همین منطق انتخاب لینک را برای ctrl-click هم رعایت کن
+        const maybePageLink = pageLinks[currentIndex] && pageLinks[currentIndex].trim() !== '' ? pageLinks[currentIndex].trim() : null;
+        const maybeLink = links[currentIndex] && links[currentIndex].trim() !== '' ? links[currentIndex].trim() : null;
+        const targetHref = maybePageLink || maybeLink || '#';
         window.open(targetHref, '_blank', 'noopener,noreferrer');
         return;
       }
@@ -421,7 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 })();
-/* 4) تابع کمکی نمایش ارور در گالری (برای استفاده توسط توسعه‌دهنده) */
+ / * 4) تابع کمکی نمایش ارور در گالری (برای استفاده توسط توسعه‌دهنده) * /
 function showGalleryError(galleryId, message){
   const g = document.getElementById(galleryId);
   if (!g) return;
@@ -432,4 +450,3 @@ function showGalleryError(galleryId, message){
   g.innerHTML = '';
   g.appendChild(el);
 }
-
