@@ -493,8 +493,8 @@ window.generateJSONLD = async function() {
       "@id": PERSON_ID,
       "name": "Abolfazl Shahab",
       "alternateName": ["ابوالفضل شهاب", "Абульфазль Шахаб"],
-      "url": "https://ivanomgru.com",
-      "image": "https://ivanomgru.com/media/profile.jpg",
+      "url": "https://ivan-omgru.ir",
+      "image": "https://ivan-omgru.ir/media/instagram/1.jpg",
       "description": "Founder of ivan_omgru | Content creator | Bilingual (Persian-Russian).",
       "sameAs": [
         "https://instagram.com/ivan.omgru",
@@ -513,8 +513,8 @@ window.generateJSONLD = async function() {
       "@id": ORG_ID,
       "name": "ivan_omgru",
       "alternateName": ["ایوان امگرو", "Иван омгру"],
-      "url": "https://ivanomgru.com",
-      "logo": "https://ivanomgru.com/media/logo.png",
+      "url": "https://ivan-omgru.ir",
+      "logo": "https://ivanomgru.com/logoman/ivan44.jpg",
       "sameAs": [
         "https://instagram.com/ivan.omgru",
         "https://youtube.com/@ivan.omgruss"
