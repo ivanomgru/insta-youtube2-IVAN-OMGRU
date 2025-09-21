@@ -446,16 +446,17 @@ function updateGallerySchema(galleryId, isVideo = false) {
     const a = card.querySelector('a');
     const img = card.querySelector('img');
     const fa = card.querySelector('.lang-fa')?.innerText || '';
-    const ru = card.querySelector('.lang-ru')?.innerText || '';
+    const ru = card.querySelector('.lang-ru')?.innerText || fa || '';
 
     return {
       "@type": isVideo ? "VideoObject" : "ImageObject",
       "@id": a?.href || img?.src || '',
       "url": a?.getAttribute('data-page-link') || a?.href || '',
       "thumbnailUrl": img?.src || '',
-      "name": fa || ru || 'بدون عنوان',
-      "description": fa || ru || '',
-      "inLanguage": "fa"
+      "name": { "fa": fa || 'بدون عنوان', "ru": ru },
+      "description": { "fa": fa || '', "ru": ru },
+      "inLanguage": ["fa","ru"],
+      "isPartOf": { "@type": "WebSite", "url": "https://ivan-omgru.ir" } // فقط سایت اصلی
     };
   });
 
@@ -471,7 +472,6 @@ function updateGallerySchema(galleryId, isVideo = false) {
     }))
   };
 
-  // بررسی وجود <script id="json-ld-{galleryId}">
   const existing = document.getElementById('json-ld-' + galleryId);
   if (existing) {
     existing.textContent = JSON.stringify(schema, null, 2);
@@ -483,7 +483,6 @@ function updateGallerySchema(galleryId, isVideo = false) {
     document.head.appendChild(s);
   }
 }
-
 /* =========================
    INTEGRATION WITH initGallery (overrides previous initGallery)
 ========================= */
